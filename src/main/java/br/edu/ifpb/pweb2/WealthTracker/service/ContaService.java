@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import br.edu.ifpb.pweb2.WealthTracker.model.Conta;
 import br.edu.ifpb.pweb2.WealthTracker.model.Correntista;
-import br.edu.ifpb.pweb2.WealthTracker.repository.CorrentistaRepository;
 import br.edu.ifpb.pweb2.WealthTracker.repository.ContaRepository;
 
 @Component
@@ -17,7 +16,7 @@ public class ContaService implements Service<Conta, Integer> {
     private ContaRepository contaRepository;
 
     @Autowired
-    private CorrentistaRepository correntistaRepository;
+    private CorrentistaService correntistaService;
 
     @Override
     public List<Conta> findAll() {
@@ -26,14 +25,24 @@ public class ContaService implements Service<Conta, Integer> {
 
     @Override
     public Conta findById(Integer id) {
-        return contaRepository.findById(id);
+        return contaRepository.findById(id).orElse(null);
     }
 
     @Override
     public Conta save(Conta conta) {
-        Correntista correntista = correntistaRepository.findById(conta.getCorrentista().getId());
+        Correntista correntista = correntistaService.findById(conta.getCorrentista().getId());
         conta.setCorrentista(correntista);
         return contaRepository.save(conta);
+    }
+
+    
+    public Conta findByNumeroWithTransacoes(String nuConta){
+        return contaRepository.findByNumeroWithTransacoes(nuConta);
+
+    }
+
+    public Conta findByIdWithTransacoes(Integer idConta) {
+        return contaRepository.findByIdWithTransacoes(idConta);
     }
 
 }
