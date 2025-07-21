@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -70,7 +71,7 @@ public class ContaController {
     @PostMapping(value = "/operacao")
     public ModelAndView operacaoConta(String nuConta, Transacao transacao, ModelAndView mav) {
         if (nuConta != null && transacao.getValor() == null) {
-            
+
             Conta conta = contaService.findByNumeroWithTransacoes(nuConta);
             if (conta != null) {
                 mav.addObject("conta", conta);
@@ -93,7 +94,24 @@ public class ContaController {
     public ModelAndView addTransacaoConta(@PathVariable("id") Integer idConta, ModelAndView mav) {
         Conta conta = contaService.findByIdWithTransacoes(idConta);
         mav.addObject("conta", conta);
-        mav.setViewName("contas/transacoes");
+        mav.setViewName("contas/list");
         return mav;
     }
+
+    @GetMapping(value = "/operacao")
+    public ModelAndView operacaoContaGet(@RequestParam(required = false) String nuConta, Transacao transacao, ModelAndView mav) {
+        Conta conta = contaService.findByNumeroWithTransacoes(nuConta);
+
+        mav.addObject("conta", conta);
+        mav.addObject("transacao", transacao);
+        mav.setViewName("contas/transacoes");
+
+        return mav;
+    }
+
+    // @GetMapping(value = "/editar-transacao")
+    // public ModelAndView editarTransacao(){
+    //
+    // }
+    
 }

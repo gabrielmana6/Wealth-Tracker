@@ -11,7 +11,7 @@
 <body>
     <div th:insert="~{cabecalho}"></div>
 
-    <form action="transacoes" method="POST" th:object="${transacao}">
+    <form th:action="@{/contas/operacao}" method="POST" th:object="${transacao}">
         <input type="hidden" th:field="*{id}" />
         <input type="hidden" th:value="${conta.numero}" id="nuConta" name="nuConta" />
         <label for="descricao">Descrição</label>
