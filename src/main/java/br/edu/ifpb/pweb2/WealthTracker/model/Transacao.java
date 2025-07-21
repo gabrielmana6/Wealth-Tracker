@@ -43,8 +43,8 @@ public class Transacao implements Serializable {
     @Enumerated(EnumType.STRING)
     private TipoMovimento movimento;
 
-    @ManyToOne(optional = false)
-	@JoinColumn(name = "account_id")
+    @ManyToOne
+	@JoinColumn(name = "id_conta")
     private Conta conta;
 
 }

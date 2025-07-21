@@ -13,6 +13,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import br.edu.ifpb.pweb2.WealthTracker.enums.TipoConta;
@@ -35,17 +38,18 @@ public class Conta implements Serializable {
 
     private String descricao;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private Correntista correntista;
-
     @Enumerated(EnumType.STRING)
     private TipoConta tipo;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date data;
 
+    @OneToMany(mappedBy="conta", cascade=CascadeType.ALL, orphanRemoval = true)
     private Set<Transacao> transacoes = new HashSet<Transacao>();
+
+    @ManyToOne
+    @JoinColumn(name = "id_correntista")
+    private Correntista correntista;
 
     public Conta(Correntista correntista) {
         this.correntista = correntista;

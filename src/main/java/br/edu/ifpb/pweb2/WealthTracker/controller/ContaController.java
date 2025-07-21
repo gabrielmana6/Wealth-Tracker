@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.edu.ifpb.pweb2.WealthTracker.model.Conta;
 import br.edu.ifpb.pweb2.WealthTracker.model.Correntista;
+import br.edu.ifpb.pweb2.WealthTracker.model.Transacao;
 import br.edu.ifpb.pweb2.WealthTracker.service.ContaService;
 import br.edu.ifpb.pweb2.WealthTracker.service.CorrentistaService;
 
@@ -59,5 +60,40 @@ public class ContaController {
         model.addObject("conta", contaService.findById(id));
         model.setViewName("contas/form");
         return model;
+    }
+
+    @GetMapping("/nuconta")
+    public String getNuConta() {
+        return "contas/operacao";
+    }
+
+    @PostMapping(value = "/operacao")
+    public ModelAndView operacaoConta(String nuConta, Transacao transacao, ModelAndView mav) {
+        if (nuConta != null && transacao.getValor() == null) {
+            
+            Conta conta = contaService.findByNumeroWithTransacoes(nuConta);
+            if (conta != null) {
+                mav.addObject("conta", conta);
+                mav.addObject("transacao", transacao);
+                mav.setViewName("contas/operacao");
+            } else {
+                mav.addObject("mensagem", "Conta inexistente!");
+                mav.setViewName("contas/operacao");
+            }
+        } else {
+            Conta conta = contaService.findByNumeroWithTransacoes(nuConta);
+            conta.addTransacao(transacao);
+            contaService.save(conta);
+            return addTransacaoConta(conta.getId(), mav);
+        }
+        return mav;
+    }
+
+    @GetMapping(value = "/{id}/transacoes")
+    public ModelAndView addTransacaoConta(@PathVariable("id") Integer idConta, ModelAndView mav) {
+        Conta conta = contaService.findByIdWithTransacoes(idConta);
+        mav.addObject("conta", conta);
+        mav.setViewName("contas/transacoes");
+        return mav;
     }
 }
