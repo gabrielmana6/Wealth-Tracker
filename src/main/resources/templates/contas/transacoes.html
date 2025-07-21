@@ -39,8 +39,6 @@
                 <td th:text="${#dates.format(transacao.data, 'dd/MM/yyyy')}" style="text-align: center;" />
                 <td th:text="${#numbers.formatCurrency(transacao.valor)}" style="text-align: right" />
             </tr>
-            <th style="font-weight:bold; background-color: darkgray;" colspan="2">Total</th>
-            <!--<td style="font-weight:bold; background-color: darkgray;text-align: right" th:text="${#numbers.formatCurrency(conta.saldo)}"></td>-->
         </tbody>
     </table>
     </div>

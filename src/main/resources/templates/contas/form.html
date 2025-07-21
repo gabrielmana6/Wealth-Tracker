@@ -47,9 +47,6 @@
 
         <button type="submit">Salvar</button>
         <a th:href="@{/contas}">Cancelar</a>
-        <a th:if="${conta.id != null}" th:href="@{/transacoes/form(contaId=${conta.id})}">
-            Criar Nova Transação
-        </a>
     </form>
 
     <script>

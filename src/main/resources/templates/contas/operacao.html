@@ -32,7 +32,7 @@
                 <span th:text="${conta.correntista.nome}"></span>
             </li>
             <li>Data abertura:
-                <span th:text="${conta.data}"></span>
+                <span th:text="${#dates.format(conta.data, 'dd/MM/yyyy')}"></span>
             </li>
         </ul>
 
