@@ -3,45 +3,27 @@
 
 <head>
     <title>BitBank - Cadastro de Transações</title>
-    
+
     <link rel="stylesheet" th:href="@{/css/style.css}" />
     <link rel="icon" th:href="@{/imagens/favicon.ico}" type="image/x-icon" />
 </head>
 
 <body>
-   <div th:insert="~{cabecalho}"></div>
- 
-    <ul>
-        <li>Conta:
-            <span th:text="${conta.numero}"></span>
-        </li>
-        <li>Correntista:
-            <span th:text="${conta.correntista.nome}"></span>
-        </li>
-        <li>Data abertura:
-            <span th:text="${#dates.format(conta.data, 'dd/MM/yyyy')}"></span>
-        </li>
-    </ul>
+    <div th:insert="~{cabecalho}"></div>
 
-    <div style="margin-bottom: 30px;"> </div>
+    <form action="transacoes" method="POST" th:object="${transacao}">
+        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:value="${conta.numero}" id="nuConta" name="nuConta" />
+        <label for="descricao">Descrição</label>
+        <input type="text" class="form-control" th:field="*{descricao}" /> <br />
 
-    <table>
-        <thead>
-            <tr>
-                <th>Descricao</th>
-                <th>Data</th>
-                <th style="text-align: right">Valor</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="transacao : ${conta.transacoes}">
-                <td th:text="${transacao.descricao}" />
-                <td th:text="${#dates.format(transacao.data, 'dd/MM/yyyy')}" style="text-align: center;" />
-                <td th:text="${#numbers.formatCurrency(transacao.valor)}" style="text-align: right" />
-            </tr>
-        </tbody>
-    </table>
-    </div>
+        <label for="data">Data</label>
+        <input type="text" class="form-control" th:field="*{data}" /> <br />
+        <label for="valor">Valor</label>
+        <input type="text" class="form-control" th:field="*{valor}" /><br />
+
+        <button type="submit">Realizar operação</button>
+    </form>
 
 </body>
 

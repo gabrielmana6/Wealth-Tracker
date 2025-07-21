@@ -41,6 +41,23 @@
         <h4>Informações da transação</h4>
         <hr class="mb-4">
 
+        <table>
+            <thead>
+                <tr>
+                    <th>Descricao</th>
+                    <th>Data</th>
+                    <th style="text-align: right">Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="transacao : ${conta.transacoes}">
+                    <td th:text="${transacao.descricao}" />
+                    <td th:text="${#dates.format(transacao.data, 'dd/MM/yyyy')}" style="text-align: center;" />
+                    <td th:text="${#numbers.formatCurrency(transacao.valor)}" style="text-align: right" />
+                </tr>
+            </tbody>
+        </table>
+        <!-- 
         <form action="operacao" method="POST" th:object="${transacao}">
             <input type="hidden" th:field="*{id}" />
             <input type="hidden" th:value="${conta.numero}" id="nuConta" name="nuConta" />
@@ -54,6 +71,7 @@
 
             <button type="submit">Realizar operação</button>
         </form>
+        -->
     </div>
 </body>
 
