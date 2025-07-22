@@ -35,8 +35,7 @@ public class ContaService implements Service<Conta, Integer> {
         return contaRepository.save(conta);
     }
 
-    
-    public Conta findByNumeroWithTransacoes(String nuConta){
+    public Conta findByNumeroWithTransacoes(String nuConta) {
         return contaRepository.findByNumeroWithTransacoes(nuConta);
 
     }

@@ -2,7 +2,7 @@
 <html lang="pt_BR" xmlns:th="www.thymeleaf.org">
 
 <head>
-    <title>BitBank - Cadastro de Operações</title>
+    <title>WealthTracker - Cadastro de Operações</title>
     
     <link rel="stylesheet" th:href="@{/css/style.css}" />
     <link rel="icon" th:href="@{/imagens/favicon.ico}" type="image/x-icon" />
@@ -47,6 +47,7 @@
                     <th>Descricao</th>
                     <th>Data</th>
                     <th style="text-align: right">Valor</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,10 +55,17 @@
                     <td th:text="${transacao.descricao}" />
                     <td th:text="${#dates.format(transacao.data, 'dd/MM/yyyy')}" style="text-align: center;" />
                     <td th:text="${#numbers.formatCurrency(transacao.valor)}" style="text-align: right" />
+                    <td>
+                        <a th:href="@{/transacoes/form/{id}(id=${transacao.id}, contaId=${conta.id})}">Editar</a>
+                        <a th:href="@{/transacoes/delete/{id}(id=${transacao.id})}" 
+                           onclick="return confirm('Tem certeza que deseja excluir esta transação?')"
+                           style="margin-left: 10px; color: red;">Deletar</a>
+                    </td>
                 </tr>
             </tbody>
         </table>
-        <a th:href="@{/contas/operacao(nuConta=${conta.numero})}">Adicionar transação</a>
+
+        <a th:href="@{/transacoes/form(contaId=${conta.id})}">Adicionar transação</a>
     </div>
 </body>
 

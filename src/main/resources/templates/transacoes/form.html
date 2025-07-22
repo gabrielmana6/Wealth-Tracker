@@ -2,7 +2,7 @@
 <html lang="pt_BR" xmlns:th="www.thymeleaf.org">
 
 <head>
-    <title>BitBank - Cadastro de Transações</title>
+    <title>WealthTracker - Transações</title>
 
     <link rel="stylesheet" th:href="@{/css/style.css}" />
     <link rel="icon" th:href="@{/imagens/favicon.ico}" type="image/x-icon" />
@@ -11,20 +11,23 @@
 <body>
     <div th:insert="~{cabecalho}"></div>
 
-    <form th:action="@{/contas/operacao}" method="POST" th:object="${transacao}">
+    <form th:action="@{/transacoes}" method="POST" th:object="${transacao}">
         <input type="hidden" th:field="*{id}" />
-        <input type="hidden" th:value="${conta.numero}" id="nuConta" name="nuConta" />
+        <input type="hidden" th:field="*{conta.id}" />
+        
         <label for="descricao">Descrição</label>
         <input type="text" class="form-control" th:field="*{descricao}" /> <br />
-
+    
         <label for="data">Data</label>
         <input type="text" class="form-control" th:field="*{data}" /> <br />
+        
         <label for="valor">Valor</label>
         <input type="text" class="form-control" th:field="*{valor}" /><br />
-
+    
         <button type="submit">Realizar operação</button>
     </form>
 
 </body>
 
 </html>
+

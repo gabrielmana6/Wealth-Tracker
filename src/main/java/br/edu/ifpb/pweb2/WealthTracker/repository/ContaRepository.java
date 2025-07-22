@@ -17,4 +17,5 @@ public interface ContaRepository extends JpaRepository<Conta, Integer> {
 
     @Query("select distinct c from Conta c left join fetch c.transacoes t where c.id = :id")
     Conta findByIdWithTransacoes(Integer id);
+
 }
