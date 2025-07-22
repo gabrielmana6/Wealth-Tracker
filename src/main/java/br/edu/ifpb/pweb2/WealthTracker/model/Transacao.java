@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import br.edu.ifpb.pweb2.WealthTracker.enums.TipoMovimento;
@@ -25,7 +26,8 @@ import br.edu.ifpb.pweb2.WealthTracker.enums.TipoMovimento;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"conta", "comentario"})
+@EqualsAndHashCode(exclude = { "conta", "comentario" })
+@ToString(exclude = { "conta", "comentario" }) // CRÍTICO: Excluir relacionamentos do toString
 @Entity
 public class Transacao implements Serializable {
     private static final long serialVersionUID = 1L;

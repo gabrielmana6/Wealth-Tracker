@@ -47,6 +47,7 @@
                     <th>Descricao</th>
                     <th>Data</th>
                     <th style="text-align: right">Valor</th>
+                    <th>Comentário</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -55,6 +56,7 @@
                     <td th:text="${transacao.descricao}" />
                     <td th:text="${#dates.format(transacao.data, 'dd/MM/yyyy')}" style="text-align: center;" />
                     <td th:text="${#numbers.formatCurrency(transacao.valor)}" style="text-align: right" />
+                    <td th:text="${transacao.comentario?.texto ?: ''}" />
                     <td>
                         <a th:href="@{/transacoes/form/{id}(id=${transacao.id}, contaId=${conta.id})}">Editar</a>
                         <a th:href="@{/transacoes/delete/{id}(id=${transacao.id})}" 

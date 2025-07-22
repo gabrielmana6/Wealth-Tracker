@@ -12,10 +12,12 @@ import jakarta.persistence.JoinColumn;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "transacao") // CRÍTICO: Excluir transacao do toString
 @Entity
 public class Comentario implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -25,7 +27,7 @@ public class Comentario implements Serializable {
     private Integer id;
 
     @Column(columnDefinition = "TEXT")
-    private String texto;
+    private String texto = "";
 
     @OneToOne
     @JoinColumn(name = "id_transacao")

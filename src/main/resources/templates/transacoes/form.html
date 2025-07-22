@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt_BR" xmlns:th="www.thymeleaf.org">
+<html lang="pt_BR" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>WealthTracker - Transações</title>
@@ -14,20 +14,24 @@
     <form th:action="@{/transacoes}" method="POST" th:object="${transacao}">
         <input type="hidden" th:field="*{id}" />
         <input type="hidden" th:field="*{conta.id}" />
-        
+        <input type="hidden" th:field="*{comentario.id}" /> <!-- ADICIONE ESTA LINHA -->
+
         <label for="descricao">Descrição</label>
         <input type="text" class="form-control" th:field="*{descricao}" /> <br />
-    
+
+
         <label for="data">Data</label>
         <input type="text" class="form-control" th:field="*{data}" /> <br />
-        
+
         <label for="valor">Valor</label>
         <input type="text" class="form-control" th:field="*{valor}" /><br />
-    
+
+        <label for="comentario">Comentário</label>
+        <input type="text" class="form-control" th:field="*{comentario.texto}" /> <br />
+
         <button type="submit">Realizar operação</button>
     </form>
 
 </body>
 
 </html>
-
