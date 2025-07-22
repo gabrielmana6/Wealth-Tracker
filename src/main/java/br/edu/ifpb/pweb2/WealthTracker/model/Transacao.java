@@ -26,8 +26,8 @@ import br.edu.ifpb.pweb2.WealthTracker.enums.TipoMovimento;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = { "conta", "comentario" })
-@ToString(exclude = { "conta", "comentario" }) // CRÍTICO: Excluir relacionamentos do toString
+@EqualsAndHashCode(exclude = { "conta", "comentario", "categoria" })
+@ToString(exclude = { "conta", "comentario", "categoria" }) // CRÍTICO: Excluir relacionamentos do toString
 @Entity
 public class Transacao implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -50,6 +50,10 @@ public class Transacao implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_conta")
     private Conta conta;
+
+    @ManyToOne
+    @JoinColumn(name = "id_categoria", nullable = false)
+    private Categoria categoria;
 
     // RELACIONAMENTO 1:0..1
     @OneToOne(mappedBy = "transacao", cascade = CascadeType.ALL, orphanRemoval = true)
