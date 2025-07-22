@@ -26,6 +26,13 @@
         <label for="valor">Valor</label>
         <input type="text" class="form-control" th:field="*{valor}" /><br />
 
+        <label for="movimento">Movimento</label>
+        <select th:field="*{movimento}" id="movimento" required>
+            <option value="">Selecione o movimento</option>
+            <option value="CREDITO">Crédito</option>
+            <option value="DEBITO">Débito</option>
+        </select>
+        <br />
         <label for="comentario">Comentário</label>
         <input type="text" class="form-control" th:field="*{comentario.texto}" /> <br />
 

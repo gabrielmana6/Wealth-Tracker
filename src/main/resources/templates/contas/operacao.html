@@ -2,7 +2,7 @@
 <html lang="pt_BR" xmlns:th="www.thymeleaf.org">
 
 <head>
-    <title>WealthTracker - Cadastro de Operações</title>
+    <title>WealthTracker - Conta e Transações</title>
     
     <link rel="stylesheet" th:href="@{/css/style.css}" />
     <link rel="icon" th:href="@{/imagens/favicon.ico}" type="image/x-icon" />
@@ -11,7 +11,7 @@
 <body>
     <div th:insert="~{cabecalho}"></div>
  
-    <h1>Cadastro de Operação</h1>
+    <h1>Conta e Transações</h1>
 
     <div th:text="${mensagem}" style="color: red"></div>
 
@@ -47,6 +47,7 @@
                     <th>Descricao</th>
                     <th>Data</th>
                     <th style="text-align: right">Valor</th>
+                    <th>Movimento</th>
                     <th>Comentário</th>
                     <th>Ações</th>
                 </tr>
@@ -56,6 +57,7 @@
                     <td th:text="${transacao.descricao}" />
                     <td th:text="${#dates.format(transacao.data, 'dd/MM/yyyy')}" style="text-align: center;" />
                     <td th:text="${#numbers.formatCurrency(transacao.valor)}" style="text-align: right" />
+                    <td th:text="${transacao.movimento}" />
                     <td th:text="${transacao.comentario?.texto ?: ''}" />
                     <td>
                         <a th:href="@{/transacoes/form/{id}(id=${transacao.id}, contaId=${conta.id})}">Editar</a>
