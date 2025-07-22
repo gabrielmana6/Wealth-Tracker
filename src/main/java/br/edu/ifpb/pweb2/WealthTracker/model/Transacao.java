@@ -12,6 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.CascadeType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,7 +25,7 @@ import br.edu.ifpb.pweb2.WealthTracker.enums.TipoMovimento;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = "conta")
+@EqualsAndHashCode(exclude = {"conta", "comentario"})
 @Entity
 public class Transacao implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -44,7 +46,10 @@ public class Transacao implements Serializable {
     private TipoMovimento movimento;
 
     @ManyToOne
-	@JoinColumn(name = "id_conta")
+    @JoinColumn(name = "id_conta")
     private Conta conta;
 
+    // RELACIONAMENTO 1:0..1
+    @OneToOne(mappedBy = "transacao", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Comentario comentario;
 }
