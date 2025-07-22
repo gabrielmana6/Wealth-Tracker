@@ -15,6 +15,10 @@ import br.edu.ifpb.pweb2.WealthTracker.model.Comentario;
 import br.edu.ifpb.pweb2.WealthTracker.model.Transacao;
 import br.edu.ifpb.pweb2.WealthTracker.service.ContaService;
 import br.edu.ifpb.pweb2.WealthTracker.service.TransacaoService;
+import br.edu.ifpb.pweb2.WealthTracker.service.CategoriaService;
+import br.edu.ifpb.pweb2.WealthTracker.model.Categoria;
+import br.edu.ifpb.pweb2.WealthTracker.enums.NaturezaCategoria;
+import java.util.List;
 
 @Controller
 @RequestMapping("/transacoes")
@@ -25,6 +29,9 @@ public class TransacaoController {
 
     @Autowired
     private ContaService contaService;
+
+    @Autowired
+    private CategoriaService categoriaService;
 
     @GetMapping("/form")
     public ModelAndView getForm(@RequestParam Integer contaId, ModelAndView model) {
@@ -40,6 +47,7 @@ public class TransacaoController {
 
         model.addObject("transacao", transacao);
         model.addObject("contaId", contaId);
+        adicionarCategoriasAoModel(model);
         model.setViewName("transacoes/form");
         return model;
     }
@@ -56,6 +64,7 @@ public class TransacaoController {
 
         model.addObject("transacao", transacao);
         model.addObject("contaId", contaId);
+        adicionarCategoriasAoModel(model);
         model.setViewName("transacoes/form");
         return model;
     }
@@ -66,6 +75,13 @@ public class TransacaoController {
         if (transacao.getConta() != null && transacao.getConta().getId() != null) {
             Conta conta = contaService.findById(transacao.getConta().getId());
             transacao.setConta(conta);
+        }
+
+        // Reconstruir a categoria a partir do ID
+        if (transacao.getCategoria() != null && transacao.getCategoria().getId() != null) {
+            Categoria categoria = categoriaService.findById(transacao.getCategoria().getId())
+                    .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+            transacao.setCategoria(categoria);
         }
 
         // CRÍTICO: Configurar o relacionamento bidirecional com o comentário
@@ -92,18 +108,29 @@ public class TransacaoController {
 
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PathVariable Integer id, ModelAndView model) {
-
         transacaoService.deleteById(id);
-
         model.setViewName("redirect:/contas");
         return model;
     }
 
     @GetMapping("/{id}")
     public ModelAndView getTransacaoById(@PathVariable(value = "id") Integer id, ModelAndView model) {
-        model.addObject("transacao", transacaoService.findById(id));
+        Transacao transacao = transacaoService.findById(id);
+
+        model.addObject("transacao", transacao);
+        adicionarCategoriasAoModel(model);
         model.setViewName("transacoes/form");
         return model;
     }
 
+    // Método auxiliar para evitar repetição de código
+    private void adicionarCategoriasAoModel(ModelAndView model) {
+        List<Categoria> categoriesEntrada = categoriaService.findByNatureza(NaturezaCategoria.ENTRADA);
+        List<Categoria> categoriesSaida = categoriaService.findByNatureza(NaturezaCategoria.SAIDA);
+        List<Categoria> categoriesInvestimento = categoriaService.findByNatureza(NaturezaCategoria.INVESTIMENTO);
+
+        model.addObject("categoriesEntrada", categoriesEntrada);
+        model.addObject("categoriesSaida", categoriesSaida);
+        model.addObject("categoriesInvestimento", categoriesInvestimento);
+    }
 }

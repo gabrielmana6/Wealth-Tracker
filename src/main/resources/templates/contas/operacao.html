@@ -44,11 +44,13 @@
         <table>
             <thead>
                 <tr>
-                    <th>Descricao</th>
+                    <th>Descrição</th>
                     <th>Data</th>
                     <th style="text-align: right">Valor</th>
                     <th>Movimento</th>
                     <th>Comentário</th>
+                    <th>Categoria</th>
+                    <th>Natureza</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -59,6 +61,8 @@
                     <td th:text="${#numbers.formatCurrency(transacao.valor)}" style="text-align: right" />
                     <td th:text="${transacao.movimento}" />
                     <td th:text="${transacao.comentario?.texto ?: ''}" />
+                    <td th:text="${transacao.categoria?.nome ?: ''}" />
+                    <td th:text="${transacao.categoria?.natureza ?: ''}" />
                     <td>
                         <a th:href="@{/transacoes/form/{id}(id=${transacao.id}, contaId=${conta.id})}">Editar</a>
                         <a th:href="@{/transacoes/delete/{id}(id=${transacao.id})}" 
